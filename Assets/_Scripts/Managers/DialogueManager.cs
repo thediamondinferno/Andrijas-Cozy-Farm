@@ -19,7 +19,7 @@ public class DialogueManager : MonoBehaviour {
     private bool _skipRequest;
 
     bool _dialogueInProgress;
-
+    bool _hasAudio;
     
     [SerializeField] AudioSource _audioSource;
     [SerializeField] AudioClip[] _audioClips;
@@ -34,16 +34,22 @@ public class DialogueManager : MonoBehaviour {
     }
 
     public void StartDialogue(Dialogue dialogue) {
-        _dialogueInProgress = true;
-        _currentDialogue = dialogue;
-        _currentLineIndex = 0;
-        _speakerImage.sprite = dialogue.speakerSprite;
-        CinematicOn();
+        if(!_dialogueInProgress){
+            _hasAudio = dialogue.hasAudio;
+            _dialogueInProgress = true;
+            _currentDialogue = dialogue;
+            _currentLineIndex = 0;
+            _speakerImage.sprite = dialogue.speakerSprite;
+            if(_hasAudio) _audioSource.PlayOneShot(_audioClips[0]);
+            CinematicOn();
+        }
     }
 
     private IEnumerator TypeSentence(string sentence) {
-        AudioClip nextAudioClip =  _audioClips[Random.Range(0,_audioClips.Length)];
-        _audioSource.PlayOneShot(nextAudioClip);
+        if(_hasAudio) {
+            AudioClip nextAudioClip =  _audioClips[Random.Range(0,_audioClips.Length)];
+            _audioSource.PlayOneShot(nextAudioClip);
+        }
         _dialogueText.text = "";
         _isShowingText = true;
 
@@ -88,7 +94,7 @@ public class DialogueManager : MonoBehaviour {
         LeanTween.moveLocalY(_cinematicBot.gameObject, _cinematicBot.localPosition.y - 100, 1f).setEase(LeanTweenType.easeInQuad);
         LeanTween.moveLocalY(_cinematicTop.gameObject, _cinematicTop.localPosition.y + 100, 1f).setEase(LeanTweenType.easeInQuad);
         LeanTween.moveLocalY(_dialoguePanel.gameObject, _dialoguePanel.transform.localPosition.y - 400, 1f).setEase(LeanTweenType.easeInQuad);
-        ShopManager.Instance.OpenShop();
+        if(_hasAudio) ShopManager.Instance.OpenShop();
         _dialogueInProgress = false;
     }
 

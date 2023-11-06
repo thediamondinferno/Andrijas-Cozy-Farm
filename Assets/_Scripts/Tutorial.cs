@@ -1,60 +1,40 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
-public class Teleporter : MonoBehaviour, IInteractable
+public class Tutorial : MonoBehaviour, IInteractable
 {
-    [SerializeField] GameObject _teleportEnd;
-    [SerializeField] Image _sceneTransition;
     [SerializeField] RectTransform _interactableButton;
-    [SerializeField] float _buttonAnimationSpeed; 
-    GameObject _player;
+    [SerializeField] float _buttonAnimationSpeed;
+    [SerializeField] Dialogue _dialogue;
 
+    
     Coroutine _interactableButtonCo;
 
-    [SerializeField] AudioSource _audioSource; 
-
-    public void Interact(){
-        StartCoroutine(FadeTransition());
+    public void Interact() {
+        if (DialogueManager.Instance != null) {
+            DialogueManager.Instance.StartDialogue(_dialogue);
+        }
     }
-    
 
-    void OnTriggerEnter2D(Collider2D other) {
+    private void OnTriggerEnter2D(Collider2D other) {
         if (other.gameObject.CompareTag("Player")) {
             _interactableButtonCo = StartCoroutine(ChangeUIVisibility(true));
         }
     }
 
     void OnTriggerStay2D(Collider2D other){
-        if(other.CompareTag("Player") && Keyboard.current.eKey.wasReleasedThisFrame){
-            _player = other.gameObject;
+        if(other.gameObject.CompareTag("Player") && Keyboard.current.eKey.wasPressedThisFrame){
             Interact();
         }
     }
 
-    void OnTriggerExit2D(Collider2D other) {
+    private void OnTriggerExit2D(Collider2D other) {
         StopCoroutine(_interactableButtonCo);
         if (other.gameObject.CompareTag("Player")) {
             StartCoroutine(ChangeUIVisibility(false));
-        }
-    }
-
-    IEnumerator FadeTransition(){
-        _audioSource.Play();
-        int counter = 0;
-        while(counter < 100){
-            counter++;
-            _sceneTransition.color += new Color(0, 0, 0, .01f);
-            yield return new WaitForSeconds(Time.deltaTime);
-        }
-        _player.transform.position = _teleportEnd.transform.position;
-        while(counter > 0){
-            counter--;
-            _sceneTransition.color -= new Color(0, 0, 0, .01f);
-            yield return new WaitForSeconds(Time.deltaTime);
         }
     }
 

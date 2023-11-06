@@ -9,13 +9,13 @@ public class PlantableSpot : MonoBehaviour
     [SerializeField] RectTransform _UIOptions;
     [SerializeField] List<Button> _options;
     private PlantData currentPlantData;
-    private Coroutine growPlantCoroutine;
-    [SerializeField] float _moneyDecreaseRate; // The rate at which money earned decreases over time after peak
     float _harvestTime;
     [SerializeField] float _optionsScaleSpeed;
     bool _planted;
     [SerializeField] AudioClip[] _audioClips;
     [SerializeField] AudioSource _audioSource;
+
+    [SerializeField] FloatMoneyCount _floatMoneyCount;
 
 
     public void PlantCrop(PlantData plantData)
@@ -24,7 +24,7 @@ public class PlantableSpot : MonoBehaviour
             currentPlantData = plantData;
             _audioSource.PlayOneShot(_audioClips[0]);
             StartCoroutine(GrowPlant());
-            _UIOptions.parent.gameObject.SetActive(false);
+            _UIOptions.gameObject.SetActive(false);
         }
     }
 
@@ -49,6 +49,7 @@ public class PlantableSpot : MonoBehaviour
             float fractionOfValueLost = Mathf.Clamp01((currentPlantData.deadTime - timeLeftToWilt) / currentPlantData.deadTime);
             int moneyEarned = Mathf.RoundToInt(currentPlantData.baseMoney * (1f - fractionOfValueLost));
             _audioSource.PlayOneShot(_audioClips[2]);
+            _floatMoneyCount.RegisterHarvest(moneyEarned);
             ResetPlantableSpot();
             return moneyEarned;
         } else if (currentPlantData != null && cropRenderer.sprite == currentPlantData.deadSprite) {
@@ -71,7 +72,7 @@ public class PlantableSpot : MonoBehaviour
     }
 
     private IEnumerator ShowOptions() {
-        _UIOptions.parent.gameObject.SetActive(true);
+        _UIOptions.gameObject.SetActive(true);
         _UIOptions.gameObject.SetActive(true);
         _UIOptions.localScale = Vector3.zero;
         // Scale up the UI options until the mouse button is released

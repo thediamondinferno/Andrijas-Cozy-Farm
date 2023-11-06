@@ -14,6 +14,8 @@ public class ShopManager : MonoBehaviour
     [SerializeField] Sprite _buttonON;
     [SerializeField] Sprite _buttonOFF;
 
+    [SerializeField] AudioSource _audioSource;
+    [SerializeField] AudioClip[] _audioClips;
     void Awake(){
         if (Instance != null && Instance != this) {
             Destroy(gameObject);
@@ -29,6 +31,7 @@ public class ShopManager : MonoBehaviour
         else if(button == 2) amount = 1000;
         if(PlayerInventoryManager.Instance.SpendMoney(amount)){
             _buyButtons[button].SetActive(false);
+            _audioSource.PlayOneShot(_audioClips[0]);
             _equipButtons[button].SetActive(true);
         }
         else StartCoroutine(BuzzRed(button));
@@ -36,6 +39,7 @@ public class ShopManager : MonoBehaviour
 
     IEnumerator BuzzRed(int button){
         _buyButtons[button].GetComponent<Image>().color = Color.red;
+        _audioSource.PlayOneShot(_audioClips[1]);
         yield return new WaitForSeconds(.2f);
         _buyButtons[button].GetComponent<Image>().color = Color.white;
     }
@@ -46,6 +50,7 @@ public class ShopManager : MonoBehaviour
             equipButton.GetComponent<Image>().sprite = _buttonOFF;
         }
         PlayerMovement.Instance.ActivateOutfit(button+1);
+        _audioSource.PlayOneShot(_audioClips[2]);
         _equipButtons[button].GetComponent<Image>().sprite = _buttonON;
     }
     bool _shopOpen;

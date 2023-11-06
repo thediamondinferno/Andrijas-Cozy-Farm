@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2dc1a1bd9f9e3a84dbc3e15204336587, type: 3}
+  m_Name: Tutorial
+  m_EditorClassIdentifier: 
+  lines:
+  - 
+  - Welcome dear Player.
+  - In this game, you're supposed to farm and sell your crops in order to buy clothes
+    for yourself.
+  - 'Moving is done using WASD keys on your keyboard. '
+  - Currently your plow is selected. You can select other tools by using the keys
+    "1", "2" and "3" thus selecting plow, seeds or the harvester respectively.
+  - By clicking on the ground with your plow, you will dig out a place to put your
+    seeds. But you cannot reach far with your tools.
+  - You can plant your seeds by clicking on "2" and click-draging on a vacant plowed
+    spot.
+  - By dragging your mouse to one of each options and letting go, you are planting
+    the seed closest to your cursor.
+  - Growing plants takes time and you'll hear a small ding when they are finished
+    growing. Be fast to switch to your harvester by pressing "3" and then clicking
+    on the grown crop.
+  - Using your harvester, you will automatically sell the crop you clicked on. Freshly
+    grown plants are worth more than ones which have started wilting.
+  - Dead crops aren't worth anything, but you can use your harvester to remove the
+    dead crop and replant it using your seeds again.
+  - You can see how much money you've made in the bottom right corner. Spend the
+    money inside the cozy little cottage on the bottom right of the map.
+  - Have fun farming!
+  - 
+  speakerSprite: {fileID: 21300114, guid: 29c9cded5e558164aaf8c9bf08aa1510, type: 3}
