@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2dc1a1bd9f9e3a84dbc3e15204336587, type: 3}
+  m_Name: TestDialogue
+  m_EditorClassIdentifier: 
+  lines:
+  - '"Hey there, Farmer! I''m Andy - that''s A for ''apparel,'' N for ''not just
+    any,'' D for ''deal,'' and Y for ''yes, I''m a talking cat.''"'
+  - You seem shocked. What, did you expect another boring human vendor? Well I did
+    too, but the game maker decided to reuse the assets.
+  - Just give me a sec to get the wares, each of them my purr-sonal favorite!
+  - ...
+  - Now, take your time, or don't... I mean, I could use a good catnap.
+  - What, you want a discount? How paws-itively audacious! Lucky me, the game maker
+    didn't have time to implement a haggling mechanic, phew.
+  speakerSprite: {fileID: -1076084999, guid: d2362876c3ea354468cb7816614b03eb, type: 3}
