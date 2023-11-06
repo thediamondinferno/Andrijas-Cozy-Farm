@@ -13,6 +13,7 @@ public class PlayerMovement : MonoBehaviour
     PlayerControls _playerControls;
 
     [SerializeField] Animator[] _animators;
+    [SerializeField] AudioSource _audioSource;
 
     private void Awake()
     {
@@ -36,20 +37,23 @@ public class PlayerMovement : MonoBehaviour
     {
         _playerControls.Player.Disable();
     }
-    public int _outfitType;
+    public int outfitType;
     public GameObject[] outfits;
+
+    public void ActivateOutfit(int _outfitType){
+        outfitType = _outfitType;
+        foreach(var outfit in outfits){
+            outfit.SetActive(false);
+        }
+        outfits[outfitType-1].SetActive(true);
+    }
 
     void Update(){
         _animators[0].SetFloat("vertical", _moveInput.y);
         _animators[0].SetFloat("horizontal", _moveInput.x);
-        if(_outfitType != 0 && _animators[_outfitType] != null){
-            for (int i = 0; i < outfits.Length; i++)
-            {
-                outfits[i].SetActive(false);
-            }
-            outfits[_outfitType-1].SetActive(true);
-            _animators[_outfitType].SetFloat("vertical", _moveInput.y);
-            _animators[_outfitType].SetFloat("horizontal", _moveInput.x);
+        if(outfitType != 0 && _animators[outfitType] != null){
+            _animators[outfitType].SetFloat("vertical", _moveInput.y);
+            _animators[outfitType].SetFloat("horizontal", _moveInput.x);
         }
     }
 
@@ -60,5 +64,7 @@ public class PlayerMovement : MonoBehaviour
         Vector2 inputVector = _moveInput * _moveSpeed * Time.fixedDeltaTime;
         Vector2 newPos = currentPos + inputVector;
         _playerRigidBody.MovePosition(newPos);
+        if(!_audioSource.isPlaying && _moveInput != Vector2.zero) _audioSource.Play();
+        if(_moveInput == Vector2.zero) _audioSource.Stop();
     }
 }

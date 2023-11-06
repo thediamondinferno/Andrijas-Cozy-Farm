@@ -15,6 +15,8 @@ public class Teleporter : MonoBehaviour, IInteractable
 
     Coroutine _interactableButtonCo;
 
+    [SerializeField] AudioSource _audioSource; 
+
     public void Interact(){
         StartCoroutine(FadeTransition());
     }
@@ -41,6 +43,7 @@ public class Teleporter : MonoBehaviour, IInteractable
     }
 
     IEnumerator FadeTransition(){
+        _audioSource.Play();
         int counter = 0;
         while(counter < 100){
             counter++;

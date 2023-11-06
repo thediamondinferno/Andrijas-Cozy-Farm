@@ -14,11 +14,15 @@ public class PlantableSpot : MonoBehaviour
     float _harvestTime;
     [SerializeField] float _optionsScaleSpeed;
     bool _planted;
+    [SerializeField] AudioClip[] _audioClips;
+    [SerializeField] AudioSource _audioSource;
+
 
     public void PlantCrop(PlantData plantData)
     {
         if(!_planted){
             currentPlantData = plantData;
+            _audioSource.PlayOneShot(_audioClips[0]);
             StartCoroutine(GrowPlant());
             _UIOptions.parent.gameObject.SetActive(false);
         }
@@ -29,6 +33,7 @@ public class PlantableSpot : MonoBehaviour
     {
         cropRenderer.sprite = currentPlantData.seedSprite;
         yield return new WaitForSeconds(currentPlantData.growthTime);
+        _audioSource.PlayOneShot(_audioClips[1]);
         cropRenderer.sprite = currentPlantData.grownSprite;
         _harvestTime = Time.time + currentPlantData.deadTime;
         yield return new WaitForSeconds(currentPlantData.deadTime);
@@ -43,7 +48,7 @@ public class PlantableSpot : MonoBehaviour
             // Assuming timeSincePeak starts negative (harvest time in the future), and becomes positive once the peak passes
             float fractionOfValueLost = Mathf.Clamp01((currentPlantData.deadTime - timeLeftToWilt) / currentPlantData.deadTime);
             int moneyEarned = Mathf.RoundToInt(currentPlantData.baseMoney * (1f - fractionOfValueLost));
-            
+            _audioSource.PlayOneShot(_audioClips[2]);
             ResetPlantableSpot();
             return moneyEarned;
         } else if (currentPlantData != null && cropRenderer.sprite == currentPlantData.deadSprite) {

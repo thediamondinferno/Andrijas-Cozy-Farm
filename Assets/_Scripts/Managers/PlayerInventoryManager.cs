@@ -31,11 +31,13 @@ public class PlayerInventoryManager : MonoBehaviour {
         PlayerMoney += amount; // Set operation triggers the UI update
     }
 
-    public void SpendMoney(int amount) {
+    public bool SpendMoney(int amount) {
         if (amount <= PlayerMoney) {
             PlayerMoney -= amount; // Set operation triggers the UI update
+            return true;
         } else {
             Debug.LogWarning("Not enough money to spend!");
+            return false;
         }
     }
 
