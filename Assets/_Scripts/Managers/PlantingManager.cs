@@ -49,14 +49,13 @@ public class PlantingManager : MonoBehaviour
 
     void UseTool(){
         Vector2 mousePosition = Mouse.current.position.ReadValue();
-        // Convert the screen position to world position
         Vector3 worldPosition = mainCamera.ScreenToWorldPoint(new Vector3(mousePosition.x, mousePosition.y, mainCamera.nearClipPlane));
-        _toolCursor.transform.position = new Vector3(worldPosition.x, worldPosition.y, 0); // You might need to adjust the Z position depending on your camera setup
+        _toolCursor.transform.position = new Vector3(worldPosition.x, worldPosition.y, 0); 
 
         if(Vector2.Distance(worldPosition, playerTransform.position) <= plantingDistance){
             if(!_buzzing) _tempSprite.color = _tempColor;
             if(Mouse.current.leftButton.wasPressedThisFrame){
-                Collider2D hitCollider = Physics2D.OverlapCircle(worldPosition, 0.1f); // Adjust the radius as needed for your game
+                Collider2D hitCollider = Physics2D.OverlapCircle(worldPosition, 0.1f); 
                 
                 switch(_toolType){
                     case 1: // Plow Tool
@@ -100,6 +99,7 @@ public class PlantingManager : MonoBehaviour
     }
 
     void SelectTool(int toolType){
+        _planting = false;
         _toolSelectText.color = Color.white;
         _toolCursor.GetComponent<SpriteRenderer>().sprite = _toolSprites[toolType-1];
         _toolCursor.SetActive(true);
@@ -120,22 +120,15 @@ public class PlantingManager : MonoBehaviour
     }
 
     void PlantAtMousePosition() {
-        //Debug.Log("Trying to plant");
-        // Convert mouse position to world position
         Vector3 mouseWorldPosition = mainCamera.ScreenToWorldPoint(new Vector3(Mouse.current.position.ReadValue().x, Mouse.current.position.ReadValue().y, -mainCamera.transform.position.z));
-        // Ensure that z position is set to 0 to work with 2D physics
         mouseWorldPosition.z = 0;
 
-        // Calculate the grid position for snapping to the nearest integer coordinates
         Vector2 gridPosition = new Vector2(Mathf.RoundToInt(mouseWorldPosition.x), Mathf.RoundToInt(mouseWorldPosition.y));
 
-        // Check the distance from the player to the grid position
         if (Vector2.Distance(gridPosition, playerTransform.position) <= plantingDistance) {
-            // Cast a ray to check for existing plantable spots at the grid position
-            Collider2D hitCollider = Physics2D.OverlapCircle(gridPosition, 0.1f); // Adjust the radius as needed for your game
+            Collider2D hitCollider = Physics2D.OverlapCircle(gridPosition, 0.1f); 
 
             if (!hitCollider) {
-                // We hit an existing plantable spot or another object, so planting is not allowed
                 CreatePlantableSpot(gridPosition);
             }
             else {
@@ -143,7 +136,6 @@ public class PlantingManager : MonoBehaviour
             }
 
         } else {
-            // The desired plant position is too far from the player
             StartCoroutine(BuzzRed());
         }
     }
@@ -157,12 +149,8 @@ public class PlantingManager : MonoBehaviour
         _buzzing = false;
     }
 
-    void CreatePlantableSpot(/*PlantData selectedPlant,*/ Vector2 position) {
-        // Instantiate and setup the new plantable spot
+    void CreatePlantableSpot(Vector2 position) {
         GameObject spotInstance = Instantiate(plantableSpotPrefab, position, Quaternion.identity);
         PlantableSpot plantableSpotComponent = spotInstance.GetComponent<PlantableSpot>();
-        if (plantableSpotComponent != null) {
-            // plantableSpotComponent.PlantCrop(selectedPlant);
-        }
     }
 }

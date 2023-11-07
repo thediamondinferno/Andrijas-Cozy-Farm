@@ -45,7 +45,6 @@ public class PlantableSpot : MonoBehaviour
         if (currentPlantData != null && cropRenderer.sprite == currentPlantData.grownSprite) {
             // Calculate money based on time since harvest peak
             float timeLeftToWilt = _harvestTime - Time.time;
-            // Assuming timeSincePeak starts negative (harvest time in the future), and becomes positive once the peak passes
             float fractionOfValueLost = Mathf.Clamp01((currentPlantData.deadTime - timeLeftToWilt) / currentPlantData.deadTime);
             int moneyEarned = Mathf.RoundToInt(currentPlantData.baseMoney * (1f - fractionOfValueLost));
             _audioSource.PlayOneShot(_audioClips[2]);
@@ -94,10 +93,8 @@ public class PlantableSpot : MonoBehaviour
 
             foreach (Button button in _options)
             {
-                // You may need to convert the button's position to screen space if it's not already
                 Vector3 buttonPosition = Camera.main.WorldToScreenPoint(button.transform.position);
                 
-                // Calculate the squared distance to avoid unnecessary square root calculation
                 float distance = (mouseScreenPosition - (Vector2)buttonPosition).sqrMagnitude;
 
                 if (distance < closestDistance)

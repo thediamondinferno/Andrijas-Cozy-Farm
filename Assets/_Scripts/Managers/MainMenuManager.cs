@@ -23,6 +23,8 @@ public class MainMenuManager : MonoBehaviour
 
     void Awake(){
         DontDestroyOnLoad(gameObject);
+        Application.targetFrameRate = 120;
+        QualitySettings.vSyncCount = 0;
     }
 
     void Start(){
@@ -115,7 +117,6 @@ public class MainMenuManager : MonoBehaviour
         }
         SceneManager.LoadSceneAsync(1);
         yield return new WaitForSeconds(1);
-        //SceneManager.SetActiveScene(SceneManager.GetSceneAt(1));
         while(counter > 0){
             counter--;
             _sceneTransition.color -= new Color(0, 0, 0, .01f);

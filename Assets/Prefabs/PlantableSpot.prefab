@@ -503,7 +503,7 @@ MonoBehaviour:
   - {fileID: 6454828248231119188}
   - {fileID: 5795175794464247494}
   - {fileID: 3987800848378470313}
-  _optionsScaleSpeed: 1
+  _optionsScaleSpeed: 3
   _audioClips:
   - {fileID: 8300000, guid: 05bf933049196b24e86d9c8cadf5d5eb, type: 3}
   - {fileID: 8300000, guid: e7abb43788fd9114393ab51746223196, type: 3}

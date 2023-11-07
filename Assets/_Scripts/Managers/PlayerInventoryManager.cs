@@ -4,7 +4,7 @@ using UnityEngine;
 public class PlayerInventoryManager : MonoBehaviour {
     public static PlayerInventoryManager Instance { get; private set; }
 
-    [SerializeField] private TMP_Text moneyText; // Assign this via the inspector
+    [SerializeField] private TMP_Text moneyText;
 
     private int playerMoney;
     public int PlayerMoney {
@@ -12,7 +12,7 @@ public class PlayerInventoryManager : MonoBehaviour {
         private set {
             if (playerMoney != value) {
                 playerMoney = value;
-                UpdateMoneyDisplay(); // Update the UI when money changes
+                UpdateMoneyDisplay();
             }
         }
     }
@@ -22,18 +22,18 @@ public class PlayerInventoryManager : MonoBehaviour {
             Destroy(gameObject);
         } else {
             Instance = this;
-            DontDestroyOnLoad(gameObject); // Persist singleton instance across scenes.
+            DontDestroyOnLoad(gameObject);
         }
-        UpdateMoneyDisplay(); // Initial UI update on awake
+        UpdateMoneyDisplay();
     }
 
     public void AddMoney(int amount) {
-        PlayerMoney += amount; // Set operation triggers the UI update
+        PlayerMoney += amount;
     }
 
     public bool SpendMoney(int amount) {
         if (amount <= PlayerMoney) {
-            PlayerMoney -= amount; // Set operation triggers the UI update
+            PlayerMoney -= amount;
             return true;
         } else {
             Debug.LogWarning("Not enough money to spend!");
@@ -41,9 +41,8 @@ public class PlayerInventoryManager : MonoBehaviour {
         }
     }
 
-    // Method to update money text when money changes
     private void UpdateMoneyDisplay() {
-        if (moneyText != null) { // Check to ensure the text component is assigned.
+        if (moneyText != null) { 
             moneyText.text = $"Money: {PlayerMoney}";
         }
     }

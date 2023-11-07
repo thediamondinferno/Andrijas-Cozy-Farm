@@ -59,7 +59,6 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        // Use FixedUpdate for physics-based movement
         Vector2 currentPos = _playerRigidBody.position;
         Vector2 inputVector = _moveInput * _moveSpeed * Time.fixedDeltaTime;
         Vector2 newPos = currentPos + inputVector;
